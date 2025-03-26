@@ -1,10 +1,23 @@
 module.exports = (sequelize, DataTypes) => {
   const Course = sequelize.define('Course', {
-    id: { type: DataTypes.UUID, defaultValue: DataTypes.UUIDV4, primaryKey: true },
-    title: { type: DataTypes.STRING, allowNull: false },
-    description: { type: DataTypes.TEXT },
-    category: { type: DataTypes.STRING },
-    created_by: { type: DataTypes.UUID }
+    id: {
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
+      primaryKey: true
+    },
+    title: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    description: {
+      type: DataTypes.TEXT
+    },
+    category: {
+      type: DataTypes.STRING
+    },
+    created_by: {
+      type: DataTypes.UUID
+    }
   }, { timestamps: true });
 
   Course.associate = (models) => {

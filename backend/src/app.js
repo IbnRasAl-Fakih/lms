@@ -5,7 +5,7 @@ const morgan = require('morgan');
 const helmet = require('helmet');
 const bodyParser = require('body-parser');
 const swaggerUi = require('swagger-ui-express');
-const swaggerDocument = require('./config/swagger-output.json');
+const swaggerDocument = require('./config/swagger-config.json');
 
 const app = express();
 
@@ -15,8 +15,10 @@ app.use(morgan('dev'));
 app.use(bodyParser.json());
 
 const userRoutes = require('./routes/user.route');
+const courseRoutes = require('./routes/course.route');
 
 app.use('/api/users', userRoutes);
+app.use('/api/courses', courseRoutes);
 
 const logger = require('./utils/logger');
 

@@ -25,8 +25,8 @@ module.exports = {
         type: Sequelize.ENUM('text', 'video', 'document'),
         allowNull: false,
       },
-      content_url: {
-        type: Sequelize.STRING,
+      content_id: {
+        type: Sequelize.UUID,
         allowNull: true,
       },
       content_text: {
