@@ -1,35 +1,14 @@
 const express = require('express');
-const { createCourse, getAllCourses, getCourse, updateCourse, deleteCourse } = require('../controllers/course.controller.js');
+const upload = require('../middlewares/upload');
+const { createCourse, getAllCourses, getCourse, updateCourse, deleteCourse, getCourseImage } = require('../controllers/course.controller.js');
 
 const authMiddleware = require('../middlewares/authMiddleware.js');
 const checkRole = require('../middlewares/roleMiddleware.js');
 
 const router = express.Router();
 
-/**
- * @swagger
- * tags:
- *   name: Courses
- *   description: Управление курсами
- */
-
-/**
- * @swagger
- * /courses/create:
- *   post:
- *     tags: [Courses]
- */
-
 // Создание курса (только для админа или инструктора)
-router.post('/create', authMiddleware, checkRole(['admin', 'instructor']), createCourse);
-
-
-/**
- * @swagger
- * /courses:
- *   get:
- *     tags: [Courses]
- */
+router.post('/create', authMiddleware, checkRole(['admin', 'instructor']), upload.single('image'), createCourse);
 
 router.get('/', authMiddleware, getAllCourses);
 
@@ -37,9 +16,11 @@ router.get('/', authMiddleware, getAllCourses);
 router.get('/:id', authMiddleware, getCourse);
 
 // Обновление курса (только для автора или админа)
-router.put('/:id', authMiddleware, checkRole(['admin', 'instructor']), updateCourse);
+router.put('/:id', authMiddleware, checkRole(['admin', 'instructor']), upload.single('image'), updateCourse);
 
 // Удаление курса (только для автора или админа)
 router.delete('/:id', authMiddleware, checkRole(['admin', 'instructor']), deleteCourse);
+
+router.get('/:id/image', getCourseImage);
 
 module.exports = router;

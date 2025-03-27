@@ -19,6 +19,10 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: true,
       },
+      background_image_id: {
+        type: Sequelize.STRING,
+        allowNull: true
+      },
       created_by: {
         type: Sequelize.UUID,
         allowNull: false,

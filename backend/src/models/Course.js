@@ -15,6 +15,10 @@ module.exports = (sequelize, DataTypes) => {
     category: {
       type: DataTypes.STRING
     },
+    background_image_id: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
     created_by: {
       type: DataTypes.UUID
     }
