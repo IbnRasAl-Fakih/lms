@@ -26,7 +26,7 @@ module.exports = {
         allowNull: false,
       },
       content_id: {
-        type: Sequelize.UUID,
+        type: Sequelize.STRING,
         allowNull: true,
       },
       content_text: {
