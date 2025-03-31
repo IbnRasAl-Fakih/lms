@@ -1,4 +1,5 @@
 const { Course } = require('../models');
+const { Module } = require('../models');
 const CourseImage = require('../models/CourseImage');
 const upload = require('../middlewares/upload');
 
@@ -74,7 +75,18 @@ const getCourse = async (req, res) => {
       res.status(500).json({ message: 'Ошибка при получении курса', error: error.message });
     }
 };
-  
+
+const getModulesByCourse = async (req, res) => {
+  const course_id = req.params.id;
+  try {
+    const modules = await Module.findAll({
+      where: { course_id }
+    });
+    res.status(200).json({ message: 'Модули успешно получены', data: modules });
+  } catch (error) {
+    res.status(500).json({ message: 'Ошибка при получении модулей по курсу', error: error.message });
+  }
+};
 
 const updateCourse = async (req, res) => {
     try {
@@ -150,4 +162,4 @@ const getCourseImage = async (req, res) => {
     }
 };
 
-module.exports = { createCourse, getAllCourses, getCourse, updateCourse, deleteCourse, getCourseImage };
+module.exports = { createCourse, getAllCourses, getCourse, getModulesByCourse, updateCourse, deleteCourse, getCourseImage };

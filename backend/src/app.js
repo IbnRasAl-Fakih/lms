@@ -42,11 +42,15 @@ const userRoutes = require('./routes/user.route');
 const courseRoutes = require('./routes/course.route');
 const moduleRoutes = require('./routes/module.route');
 const lessonRoutes = require('./routes/lesson.route');
+const testRoutes = require('./routes/test.route');
+const questionRoutes = require('./routes/question.route');
 
 app.use('/api/users', userRoutes);
 app.use('/api/courses', courseRoutes);
 app.use('/api/modules', moduleRoutes);
 app.use('/api/lessons', lessonRoutes);
+app.use('/api/tests', testRoutes);
+app.use('/api/questions', questionRoutes);
 
 // Swagger (только в dev-режиме)
 if (process.env.NODE_ENV === 'development') {

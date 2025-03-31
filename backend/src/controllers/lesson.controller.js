@@ -1,14 +1,12 @@
 const { Lesson } = require('../models');
 const LessonContent = require('../models/LessonContent');
 
-// Создание урока
 const createLesson = async (req, res) => {
     try {
       const { module_id, title, content_type, content_text } = req.body;
   
       let content_id = null;
-  
-      // Если тип контента - файл (video/document), сохраняем его в MongoDB
+
       if (req.file && (content_type === 'video' || content_type === 'document')) {
         const content = new LessonContent({
           data: req.file.buffer,
@@ -19,8 +17,7 @@ const createLesson = async (req, res) => {
         const savedContent = await content.save();
         content_id = savedContent._id.toString();
       }
-  
-      // Создаём Lesson в PostgreSQL
+
       const lesson = await Lesson.create({
         module_id,
         title,
@@ -35,39 +32,6 @@ const createLesson = async (req, res) => {
     }
 };
 
-// Получение всех уроков
-const getAllLessons = async (req, res) => {
-    try {
-      const { module_id } = req.query;
-  
-      if (!module_id) {
-        return res.status(400).json({ message: 'module_id обязателен' });
-      }
-  
-      const lessons = await Lesson.findAll({ where: { module_id } });
-  
-      const lessonsWithLinks = lessons.map((lesson) => {
-        const data = lesson.toJSON();
-  
-        if (data.content_id && (data.content_type === 'video' || data.content_type === 'document')) {
-          data.content_url = `${req.protocol}://${req.get('host')}/api/lessons/${data.id}/content`;
-        } else {
-          data.content_url = null;
-        }
-  
-        return data;
-      });
-  
-      res.status(200).json({
-        message: 'Уроки успешно получены',
-        lessons: lessonsWithLinks
-      });
-    } catch (error) {
-      res.status(500).json({ message: 'Ошибка при получении уроков', error: error.message });
-    }
-};
-
-// Получение одного урока
 const getLesson = async (req, res) => {
     try {
       const lesson = await Lesson.findByPk(req.params.id);
@@ -76,8 +40,7 @@ const getLesson = async (req, res) => {
       }
   
       const lessonData = lesson.toJSON();
-  
-      // Если видео или документ — добавим ссылку
+
       if (lessonData.content_id && (lessonData.content_type === 'video' || lessonData.content_type === 'document')) {
         lessonData.content_url = `${req.protocol}://${req.get('host')}/api/lessons/${lesson.id}/content`;
       } else {
@@ -93,7 +56,6 @@ const getLesson = async (req, res) => {
     }
 };
 
-// Обновление урока
 const updateLesson = async (req, res) => {
     try {
       const lesson = await Lesson.findByPk(req.params.id);
@@ -110,12 +72,10 @@ const updateLesson = async (req, res) => {
       }
   
       if (req.file && (content_type === 'video' || content_type === 'document')) {
-        // Удаляем старый файл из MongoDB
         if (lesson.content_id) {
           await LessonContent.findByIdAndDelete(lesson.content_id);
         }
-  
-        // Загружаем новый файл
+
         const content = new LessonContent({
           data: req.file.buffer,
           contentType: req.file.mimetype,
@@ -135,20 +95,17 @@ const updateLesson = async (req, res) => {
     }
 };
 
-// Удаление урока
 const deleteLesson = async (req, res) => {
     try {
       const lesson = await Lesson.findByPk(req.params.id);
       if (!lesson) {
         return res.status(404).json({ message: 'Урок не найден' });
       }
-  
-      // Удаление контента из MongoDB
+
       if (lesson.content_id) {
         await LessonContent.findByIdAndDelete(lesson.content_id);
       }
-  
-      // Удаление урока из PostgreSQL
+
       await lesson.destroy();
   
       res.status(200).json({ message: 'Урок успешно удалён' });
@@ -176,11 +133,4 @@ const getLessonContent = async (req, res) => {
     }
 };
 
-module.exports = {
-  createLesson,
-  getAllLessons,
-  getLesson,
-  updateLesson,
-  deleteLesson,
-  getLessonContent
-};
+module.exports = { createLesson, getLesson, updateLesson, deleteLesson, getLessonContent };

@@ -1,4 +1,6 @@
 const { Module } = require('../models');
+const { Test } = require('../models');
+const { Lesson } = require('../models');
 
 const getAllModules = async (req, res) => {
   const { course_id } = req.params;
@@ -21,6 +23,53 @@ const getModuleById = async (req, res) => {
     res.status(200).json({ message: 'Модуль успешно найден', data: module });
   } catch (error) {
     res.status(500).json({ message: 'Ошибка при получении модуля', error });
+  }
+};
+
+const getTestsByModule = async (req, res) => {
+  try {
+    const moduleId = req.params.id;
+    
+    if (!moduleId) {
+      return res.status(400).json({ message: 'module_id обязателен' });
+    }
+
+    const tests = await Test.findAll({ where: { module_id: moduleId } });
+
+    res.status(200).json({ message: 'Список тестов по модулю успешно получен', tests });
+  } catch (error) {
+    res.status(500).json({ message: 'Ошибка при получении тестов', error: error.message });
+  }
+};
+
+const getLessonsByModule = async (req, res) => {
+  try {
+    const module_id = req.params.id;
+
+    if (!module_id) {
+      return res.status(400).json({ message: 'module_id обязателен' });
+    }
+
+    const lessons = await Lesson.findAll({ where: { module_id } });
+
+    const lessonsWithLinks = lessons.map((lesson) => {
+      const data = lesson.toJSON();
+
+      if (data.content_id && (data.content_type === 'video' || data.content_type === 'document')) {
+        data.content_url = `${req.protocol}://${req.get('host')}/api/lessons/${data.id}/content`;
+      } else {
+        data.content_url = null;
+      }
+
+      return data;
+    });
+
+    res.status(200).json({
+      message: 'Уроки успешно получены',
+      lessons: lessonsWithLinks
+    });
+  } catch (error) {
+    res.status(500).json({ message: 'Ошибка при получении уроков', error: error.message });
   }
 };
 
@@ -81,4 +130,4 @@ const deleteModule = async (req, res) => {
     }
 };
 
-module.exports = { getAllModules, getModuleById, createModule, updateModule, deleteModule };
+module.exports = { getAllModules, getModuleById, getTestsByModule, getLessonsByModule, createModule, updateModule, deleteModule };

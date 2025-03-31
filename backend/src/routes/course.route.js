@@ -1,6 +1,6 @@
 const express = require('express');
 const upload = require('../middlewares/upload');
-const { createCourse, getAllCourses, getCourse, updateCourse, deleteCourse, getCourseImage } = require('../controllers/course.controller.js');
+const { createCourse, getAllCourses, getCourse, getModulesByCourse, updateCourse, deleteCourse, getCourseImage } = require('../controllers/course.controller.js');
 
 const authMiddleware = require('../middlewares/authMiddleware.js');
 const checkRole = require('../middlewares/roleMiddleware.js');
@@ -14,6 +14,8 @@ router.get('/', authMiddleware, getAllCourses);
 
 // Получение одного курса по ID
 router.get('/:id', authMiddleware, getCourse);
+
+router.get('/:id/modules', authMiddleware, getModulesByCourse);
 
 // Обновление курса (только для автора или админа)
 router.put('/:id', authMiddleware, checkRole(['admin', 'instructor']), upload.single('image'), updateCourse);

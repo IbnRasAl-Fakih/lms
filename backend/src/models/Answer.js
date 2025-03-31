@@ -1,9 +1,25 @@
 module.exports = (sequelize, DataTypes) => {
   const Answer = sequelize.define('Answer', {
-    id: { type: DataTypes.UUID, defaultValue: DataTypes.UUIDV4, primaryKey: true },
-    question_id: { type: DataTypes.UUID },
-    answer_text: { type: DataTypes.TEXT, allowNull: false },
-    is_correct: { type: DataTypes.BOOLEAN, defaultValue: false },
+    id: {
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
+      primaryKey: true
+    },
+    question_id: {
+      type: DataTypes.UUID
+    },
+    answer_text: {
+      type: DataTypes.TEXT,
+      allowNull: false
+    },
+    is_correct: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false
+    },
+    description: {
+      type: DataTypes.TEXT,
+      defaultValue: false
+    },
   }, { timestamps: true });
 
   Answer.associate = (models) => {
