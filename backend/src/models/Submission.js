@@ -1,9 +1,24 @@
 module.exports = (sequelize, DataTypes) => {
   const Submission = sequelize.define('Submission', {
-    id: { type: DataTypes.UUID, defaultValue: DataTypes.UUIDV4, primaryKey: true },
-    user_id: { type: DataTypes.UUID },
-    test_id: { type: DataTypes.UUID },
-    score: { type: DataTypes.INTEGER },
+    id: {
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
+      primaryKey: true
+    },
+    user_id: {
+      type: DataTypes.UUID
+    },
+    test_id: {
+      type: DataTypes.UUID
+    },
+    score: {
+      type: DataTypes.INTEGER
+    },
+    submitted_at: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: DataTypes.NOW
+    },
   }, { timestamps: true });
 
   Submission.associate = (models) => {

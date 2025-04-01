@@ -1,13 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const { 
-  createTest,
-  getTest,
-  getQuestionsByTestId,
-  updateTest,
-  deleteTest 
-} = require('../controllers/test.controller');
+const { createTest, getTest, getQuestionsByTestId, updateTest, deleteTest } = require('../controllers/test.controller');
 
 const authMiddleware = require('../middlewares/authMiddleware');
 const checkRole = require('../middlewares/roleMiddleware');

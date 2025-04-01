@@ -29,6 +29,7 @@
     "nodemailer": "^6.10.0",
     "pg": "^8.14.1",
     "pg-hstore": "^2.3.4",
+    "puppeteer": "^24.4.0",
     "sequelize": "^6.37.6",
     "winston": "^3.17.0"
   },

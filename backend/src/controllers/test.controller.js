@@ -69,10 +69,4 @@ const deleteTest = async (req, res) => {
   }
 };
 
-module.exports = {
-    createTest,
-    getTest,
-    getQuestionsByTestId,
-    updateTest,
-    deleteTest
-};
+module.exports = { createTest, getTest, getQuestionsByTestId, updateTest, deleteTest };
