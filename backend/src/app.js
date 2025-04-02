@@ -46,6 +46,7 @@ const testRoutes = require('./routes/test.route');
 const questionRoutes = require('./routes/question.route');
 const submissionRoutes = require('./routes/submission.route');
 const certificateRoutes = require('./routes/certificate.route');
+const enrollmentRoutes = require('./routes/enrollment.route');
 
 app.use('/api/users', userRoutes);
 app.use('/api/courses', courseRoutes);
@@ -55,6 +56,7 @@ app.use('/api/tests', testRoutes);
 app.use('/api/questions', questionRoutes);
 app.use('/api/submissions', submissionRoutes);
 app.use('/api/certificates', certificateRoutes);
+app.use('/api/enrollments', enrollmentRoutes);
 
 // Swagger (только в dev-режиме)
 if (process.env.NODE_ENV === 'development') {

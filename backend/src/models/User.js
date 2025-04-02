@@ -24,5 +24,15 @@ module.exports = (sequelize, DataTypes) => {
     },
   }, { timestamps: true });
 
+  User.associate = (models) => {
+    User.belongsToMany(models.Course, {
+      through: models.Enrollment,
+      foreignKey: 'user_id',
+      otherKey: 'course_id',
+      as: 'enrolledCourses'
+    });
+    User.hasMany(models.Course, { foreignKey: 'created_by', as: 'createdCourses' });
+  };
+
   return User;
 };

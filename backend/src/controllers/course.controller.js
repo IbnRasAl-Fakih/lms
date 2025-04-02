@@ -1,7 +1,6 @@
 const { Course } = require('../models');
 const { Module } = require('../models');
 const CourseImage = require('../models/CourseImage');
-const upload = require('../middlewares/upload');
 
 const createCourse = async (req, res) => {
     try {

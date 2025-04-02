@@ -1,4 +1,4 @@
-require('dotenv').config({ path: '../.env' });  
+require('dotenv').config({ path: '../.env' });
 
 const nodemailer = require('nodemailer');
 const bcrypt = require('bcryptjs');
